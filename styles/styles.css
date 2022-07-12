@@ -5,23 +5,29 @@
 }
 
 body {
+	margin: 0;
     background-color: papayawhip;
 }
 
 .game-container {
-    display: flex;
-    width: 200px;
-    height: 300px;
-    margin: 10px auto;
-    flex-wrap: wrap;
+    width: 310px;
+    height: 610px;
+    margin: 20px auto;
+    border: 5px solid black;
+	 display: flex;
+	 flex-wrap: wrap;
+}
+.cell{
+	border: 1px solid black;
+	width: 30px;
+	height: 30px;
+}
+.movingCell{
+	background-color: brown;
+}
+.fixedCell{
+	background-color: green;
 }
 
-.cell {
-    height: 20px;
-    width: 20px;
-    border: 1px solid black;
-}
 
-.cell.active {
-    background-color: yellow;
-}
+

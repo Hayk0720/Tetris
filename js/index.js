@@ -1,74 +1,177 @@
-"use strict"
+let playGround = document.querySelector(".game-container");
+let playField =[
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+];
+let gameSpeed=400;
 
-const container = document.getElementById('container');
-const rowCount = 15;
-const colCount = 10;
-
-function drawBoard() {
-    for (let i = 0; i < rowCount; i++) {
-        for (let j = 0; j < colCount; j++) {
-            const cell = document.createElement('div');
-            cell.classList.add('cell');
-            cell.dataset.i = i;
-            cell.dataset.j = j;
-            container.append(cell);
-            if(i === 0 && j ===4) {
-                cell.classList.add('active');
-            }
-        }
-    }
+function removePrevEl(){
+	for (let i = 0; i < playField.length; i++) {
+		for (let j = 0; j < playField[i].length; j++) {
+			if(playField[i][j] ===1){
+				
+				playField[i][j] = 0;
+			}
+		}
+	}
 }
 
-drawBoard();
+function updateEl(){
+	removePrevEl();
+	for (let y = 0; y < activEl.shape.length; y++) {
+for (let x = 0; x < activEl.shape[y].length; x++) {
+	if(activEl.shape[y][x]) {
+		playField[activEl.y+y][activEl.x+x]  = activEl.shape[y][x];
+	}
+	
+}		
+	}
+}
+let activEl = {
+	x:0,
+	y:0,
+	shape:[
+		[1,1,1],//[0,0,1],
+		[0,1,0],//[0,1,1],
+		[0,0,0],//[0,0,1],
+	],
+}
 
-function moveDown() {
-    const activeEl = document.getElementsByClassName('active')[0];
-    activeEl.classList.remove('active');
-    const nextEl = document.querySelectorAll(`div[data-i = "${+activeEl.dataset.i + 1}"]`)[activeEl.dataset.j];
-    nextEl.classList.add('active');
-    nextEl.id='active'; 
-	 
-	 if(activeEl.dataset.i === `${rowCount-2}`){
-		nextEl.style.backgroundColor = 'red';
+function draw(){
+	let groundInnerHTML = '';
+	for (let i = 0; i < playField.length; i++) {
+		for (let j = 0; j < playField[i].length; j++) {
+			
+			if(playField[i][j]===1){
+				groundInnerHTML += '<div class = "cell movingCell"></div>'
+			}else if(playField[i][j]===2){
+				groundInnerHTML += '<div class = "cell fixedCell"></div>'
+			}else {
+			groundInnerHTML += '<div class = "cell"></div>';
+			}
 		
-	 }
+		}	
+			
+	}
+	playGround.innerHTML = groundInnerHTML;
 	
 }
-function moveLeft() {
-	const activeEl = document.getElementsByClassName('active')[0];
-	activeEl.classList.remove('active');
-	const nextEl = document.querySelectorAll(`div[data-j = "${+activeEl.dataset.j - 1}"]`)[activeEl.dataset.i];
-	nextEl.classList.add('active');
 
-	if(activeEl.dataset.j === 1){
-		nextEl.style.backgroundColor = 'red';
-		
-	 }
+function outfield(){
+	for (let y = 0; y < activEl.shape.length; y++) {
+		for (let x = 0; x < activEl.shape[y].length; x++) {
+			if(
+					activEl.shape[y][x] && 
+						(
+						playField[activEl.y+y] === undefined || 
+						playField[activEl.y+y][activEl.x+x] === undefined ||
+						playField[activEl.y+y][activEl.x+x] ===2
+						)
+			  ) 
+			  {
+				return true;
+			}			
+		}		
+	} 
+	return false;
+}
+
+
+
+function removeFullLines(){
+	let removeLine = true;
+	for (let i = 0; i < playField.length; i++) {
+		for (let j = 0; j < playField[i].length; j++) {
+			if(playField[i][j] !== 2){
+				removeLine = false;
+				break;
+			}
+		}
+		if(removeLine){
+			playField.splice(i,1);
+			playField.splice(0,0,[0,0,0,0,0,0,0,0,0,0]);
+		}
+		removeLine = true;
+	}
+}
+
+
+function fixElem(){
+	for (let i = 0; i < playField.length; i++) {
+		for (let j = 0; j < playField[i].length; j++) {
+			if(playField[i][j]===1){
+				playField[i][j]=2;
+			}
+		}		
+	}
+}
+
+
+
+
+
 	
-}
-function moveRight() {
-	const activeEl = document.getElementsByClassName('active')[0];
-	activeEl.classList.remove('active');
-	const nextEl = document.querySelectorAll(`div[data-j = "${+activeEl.dataset.j + 1}"]`)[activeEl.dataset.i];
-	nextEl.classList.add('active');
 
-	if(activeEl.dataset.j === 1){
-		nextEl.style.backgroundColor = 'red';
-		
-	 }
+	document.onkeydown = function(e){
+		if(e.key === "ArrowLeft"){
+			activEl.x -= 1;
+			if(outfield()){
+				activEl.x +=1
+			}
+			
+		}
+		else if(e.key ==="ArrowRight"){
+			activEl.x +=1
+			if(outfield()){
+				activEl.x -=1
+			}
+
+		}
+		else if(e.key ==="ArrowDown"){
+			activEl.y +=1;
+			if(outfield()){
+				activEl.y -= 1;
+				fixElem();
+				activEl.y = 0;
+			}
+
+		}
+		else if(e.key ==="ArrowUp"){
+			rotateEl();
+
+		}
+
+		updateEl();
+		draw();
+	}
+	updateEl();
+
+	draw();
+
+	// function startGame(){
+	// 	activEl.y +=1;
+	// 	draw();
+	// 	 setTimeout(startGame,gameSpeed)
+	// }
 	
-}
-
-window.addEventListener('keydown', (e) => {
-	const activeEl = document.getElementsByClassName('active')[0];
-    if (e.key === 'ArrowDown' && activeEl.dataset.i < colCount+4) {
-		
-        moveDown();
-    }
-	 if (e.key === 'ArrowLeft' && activeEl.dataset.j > 0) {
-		moveLeft();
-  }
-  if (e.key === 'ArrowRight' && activeEl.dataset.j <`${colCount-1}`) {
-	moveRight();
-}
-});
+	// setTimeout(startGame,gameSpeed);
+	
+	
