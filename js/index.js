@@ -150,7 +150,7 @@ function fixElem(){
 			if(outfield()){
 				activEl.y -= 1;
 				fixElem();
-				removeFullLines();
+				removeFullLines()
 				activEl.y = 0;
 			}
 
