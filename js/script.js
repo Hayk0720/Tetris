@@ -370,6 +370,7 @@ document.onkeydown = function(e){
 
 	function startGame(){
 		
+			if(!isPaused){
 			moveElDown();
 			updateEl();
 			draw();
@@ -377,6 +378,7 @@ document.onkeydown = function(e){
 	
 		
 		gameTimerId = setTimeout(startGame,possibleLevels[currentLevel].speed);
+	}
 	}
 	
 	//setTimeout(startGame,possibleLevels[currentLevel].speed);
