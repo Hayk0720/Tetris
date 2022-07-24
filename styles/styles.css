@@ -6,13 +6,22 @@
 
 body {
 	margin: 0;
-    background-color: papayawhip;
+    background-color: rgb(58, 52, 42);
+	 color: white;
+	 font-family: Arial, Helvetica, sans-serif;
+	 font-size: 20px;
+}
+#game{
+	padding-top:20px;
+	font-size: 40px;
+	width: 320px;
+	margin: auto;
 }
 
 .game-container {
     width: 310px;
-    height: 610px;
-    margin: 20px auto;
+    height: 620px;
+    margin: 20px auto 0;
     border: 5px solid black;
 	 display: flex;
 	 flex-wrap: wrap;
@@ -21,12 +30,21 @@ body {
 	border: 1px solid black;
 	width: 30px;
 	height: 30px;
+	display: inline-block;
 }
 .movingCell{
 	background-color: brown;
 }
 .fixedCell{
 	background-color: green;
+	
+}
+#nextEl{
+	position: absolute;
+	left: 200px;
+	top: 200px;
+	font-size: 0;
+	border: 5px solid black;
 }
 
 

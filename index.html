@@ -8,11 +8,14 @@
 </head>
 
 <body>
-	<div id="container" class="game-container">
-		<div class="cell"></div>
-		<div class="cell movingCell"></div>
-		<div class="cell fixedCell"></div>
+	<div id="game">
+		<button id="start">START</button>
+		<button id="pause">PAUSE</button>
+		<div>Score: <span id="score">0</span></div>
+		<div>Level: <span id="level">1</span></div>
 
+		<div id="container" class="game-container"></div>
+		<div id="nextEl"></div>
 	</div>
 	<script src="js/script.js"></script>
 </body>
